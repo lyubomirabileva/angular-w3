@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="form-container">
+      <div>
+        <input
+          [formControl]="title"
+          placeholder="Заглавие на бележката"
+          [ngClass]="{ invalid: title.invalid && title.touched }"
+        />
+        <p *ngIf="title.invalid && title.touched"> Заглавието трябва да е минимум 5 символа </p>
+        <input
+          [formControl]="content"
+          placeholder="Съдържание на бележката"
+          [ngClass]="{ invalid: content.invalid && content.touched }"
+        />
+        <p *ngIf="content.invalid && content.touched"> Съдържанието трябва да е минимум 7 символа </p>
+        <button
+          (click)="saveNote()"
+          [disabled]="title.invalid || content.invalid"
+        >
+          Запази бележката
+        </button>
+      </div>
+    </div>
+  
+    <div class="notes-container">
+      <div
+        class="notes"
+        *ngFor="let savedNote of notes; let i = index"
+        [class.selected]="i === selectedNoteIndex"
+      >
+        <h1>Бележка №{{ i + 1 }}</h1>
+        <h2 (click)="selectNote(i)">{{ savedNote.title }}</h2>
+        <p>{{ savedNote.content }}</p>
+        <button
+          *ngIf="i === selectedNoteIndex"
+          (click)="editNote(selectedNoteIndex)"
+        >
+          Редактирай
+        </button>
+        <button *ngIf="i === selectedNoteIndex" (click)="deleteNote()">
+          Изтрий
+        </button>
+      </div>
+    </div>
+  </div>
